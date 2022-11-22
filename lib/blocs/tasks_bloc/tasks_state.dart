@@ -38,12 +38,3 @@ class TasksState extends Equatable {
     );
   }
 }
-
-// factory TasksState.fromMap(Map<String, dynamic> map) {
-    // return TasksState(
-      // pendingTasks: List<Task>.from((map['pendingTasks'] as List<int>)
-          // .map<Task>((x) => Task.fromMap(x as Map<String, dynamic>))),
-      // removedTasks: List<Task>.from((map['removedTasks'] as List<int>)
-          // .map<Task>((x) => Task.fromMap(x as Map<String, dynamic>))),
-    // );
-  // }

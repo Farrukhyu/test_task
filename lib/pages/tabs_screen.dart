@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:test_task/pages/completed_tasks_screen.dart';
 import 'package:test_task/pages/pending_screen.dart';
 import 'package:test_task/pages/my_drawer.dart';
+import 'package:animations/animations.dart';
 
 import 'add_task_screen.dart';
 
@@ -21,6 +22,10 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
 
   var _selectedPageIndex = 0;
+
+// key for sliver animated list
+//  final GlobalKey<SliverAnimatedListState> _listKey =
+//      GlobalKey<SliverAnimatedListState>();
 
   void _addTask(BuildContext context) {
     showModalBottomSheet(
@@ -50,26 +55,40 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       drawer: MyDrawer(),
       body: _pageDetails[_selectedPageIndex]['pageName'],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _addTask(context),
-        tooltip: 'Add Task',
-        child: const Icon(CupertinoIcons.add),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedPageIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedPageIndex = index;
-          });
+      bottomNavigationBar: PageTransitionSwitcher(
+        transitionBuilder: (
+          Widget child,
+          Animation<double> primaryAnimation,
+          Animation<double> secondaryAnimation,
+        ) {
+          return FadeThroughTransition(
+            animation: primaryAnimation,
+            secondaryAnimation: secondaryAnimation,
+            child: child,
+          );
         },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.square_list), label: 'To do Tasks'),
-          BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.checkmark_alt),
-              label: 'Completed Tasks'),
-        ],
+        child: BottomNavigationBar(
+          currentIndex: _selectedPageIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedPageIndex = index;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.square_list), label: 'To do Tasks'),
+            BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.checkmark_alt),
+                label: 'Completed Tasks'),
+          ],
+        ),
       ),
     );
   }
 }
+
+// floatingActionButton: FloatingActionButton(
+//         onPressed: () => _addTask(context),
+//         tooltip: 'Add Task',
+//         child: const Icon(CupertinoIcons.add),
+//       ),

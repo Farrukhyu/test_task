@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:test_task/pages/recycle_bin.dart';
 import 'package:test_task/pages/tabs_screen.dart';
+import 'package:animations/animations.dart';
 
 import '../blocs/bloc_exports.dart';
 
@@ -53,7 +55,7 @@ class MyDrawer extends StatelessWidget {
             ),
             BlocBuilder<SwitchBloc, SwitchState>(
               builder: (context, state) {
-                return Switch(
+                return CupertinoSwitch(
                   value: state.switchValue,
                   onChanged: (newValue) {
                     newValue

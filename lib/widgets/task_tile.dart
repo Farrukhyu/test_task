@@ -84,18 +84,41 @@ class TaskTile extends StatelessWidget {
               ),
               PopupMenu(
                 task: task,
-                cancelOrDeleteCallback: () =>
-                    _removeOrDeleteTask(context, task),
+                cancelOrDeleteCallback: () {
+                  _removeOrDeleteTask(context, task);
+                  _showToast(
+                      context,
+                      'You`ve deleted  task.\n' +
+                          task.title +
+                          ' can be restored in Bin');
+                },
                 editTaskCallback: () {
                   Navigator.of(context).pop();
                   _editTask(context);
                 },
-                restoreTaskCallback: () =>
-                    context.read<TasksBloc>().add(RestoreTask(task: task)),
+                restoreTaskCallback: () {
+                  context.read<TasksBloc>().add(RestoreTask(task: task));
+                  _showToast(context, 'You`ve restored  task');
+                },
               ),
             ],
           )
         ],
+      ),
+    );
+  }
+
+// Toast
+  void _showToast(
+    BuildContext context,
+    String text,
+  ) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(text),
+        action: SnackBarAction(
+            label: 'Hide', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
